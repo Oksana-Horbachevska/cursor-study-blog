@@ -2,8 +2,15 @@ import fs from 'fs'
 import path from 'path'
 import Blog from '../models/Blog.js'
 import Comment from '../models/Comment.js'
+import main from '../configs/gemini.js'
+import { buildBlogPrompt } from '../prompts/blogGeneration.js'
 import { transformBlogImage, transformBlogsImages } from '../utils/imageUrl.js'
 import { asyncHandler } from '../helpers/asyncHandler.js'
+
+// Helper to get image URL from filename (relative path for storage)
+const getImagePath = (filename) => {
+  return `/uploads/blogs/${filename}`
+}
 
 // Helper to delete image file
 const deleteImageFile = (imagePath) => {
@@ -23,6 +30,34 @@ const deleteImageFile = (imagePath) => {
     }
   }
 }
+
+export const addBlog = asyncHandler(async (req, res) => {
+  const { title, subTitle, description, category, isPublished } = JSON.parse(req.body.blog)
+  const imageFile = req.file
+
+  if (!title || !description || !category || !imageFile) {
+    return res.status(400).json({ success: false, message: 'Missing required fields' })
+  }
+
+  const image = getImagePath(imageFile.filename)
+
+  const blog = await Blog.create({
+    title,
+    subTitle,
+    description,
+    category,
+    image,
+    isPublished,
+    author: req.user.userId,
+    authorName: req.user.name
+  })
+
+  res.status(201).json({
+    success: true,
+    message: 'Blog added successfully',
+    blog: transformBlogImage(blog, req)
+  })
+})
 
 export const getAllBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find({ isPublished: true })
@@ -100,5 +135,22 @@ export const getBlogComments = asyncHandler(async (req, res) => {
     count: comments.length,
     comments
   })
+})
+
+export const generateContent = asyncHandler(async (req, res) => {
+  if (!process.env.GEMINI_API_KEY) {
+    return res.status(500).json({
+      success: false,
+      message: 'Gemini API key is not configured'
+    })
+  }
+
+  const { prompt } = req.body
+  if (!prompt || !prompt.trim()) {
+    return res.status(400).json({ success: false, message: 'Prompt is required' })
+  }
+
+  const content = await main(buildBlogPrompt(prompt))
+  res.json({ success: true, content })
 })
 
