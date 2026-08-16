@@ -8,6 +8,7 @@ export const MESSAGES = {
   SUCCESS_COMMENT_APPROVED: 'Comment approved successfully!',
   SUCCESS_LOGIN: 'Login successful!',
   SUCCESS_LOGOUT: 'Logout successful!',
+  SUCCESS_CONTENT_GENERATED: 'Content generated successfully!',
 
   // Error messages
   ERROR_GENERIC: 'Something went wrong. Please try again.',
