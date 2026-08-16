@@ -56,10 +56,6 @@
       "draft": "Draft"
     }
   },
-  "blogDetail": {
-    "shareTitle": "Share this article on social media",
-    "coverAlt": "Article cover"
-  },
   "comment": {
     "title": "Leave a comment",
     "description": "Want to share your thoughts or leave a comment? We'd love to hear from you!",
@@ -71,6 +67,10 @@
     "approve": "Approve comment",
     "unapprove": "Unapprove comment",
     "deleteComment": "Delete comment"
+  },
+  "blogDetail": {
+    "shareTitle": "Share this article on social media",
+    "coverAlt": "Article cover"
   },
   "admin": {
     "sidebar": {

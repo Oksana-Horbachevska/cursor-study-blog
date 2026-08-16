@@ -18,7 +18,7 @@ export function useComments(blogId) {
       setLoading(true)
       setError(null)
       const response = await commentApi.getByBlogId(blogId)
-      
+
       if (response.data.success) {
         setComments(response.data.comments)
       } else {
@@ -42,7 +42,7 @@ export function useComments(blogId) {
   const addComment = async (commentData) => {
     try {
       const response = await commentApi.add(commentData)
-      
+
       if (response.data.success) {
         toast.success(response.data.message || MESSAGES.SUCCESS_COMMENT_ADDED)
         await fetchComments()
@@ -60,4 +60,3 @@ export function useComments(blogId) {
 
   return { comments, loading, error, addComment, refetch: fetchComments }
 }
-
