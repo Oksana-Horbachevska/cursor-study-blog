@@ -82,8 +82,10 @@
     "dashboard": {
       "title": "Dashboard",
       "articles": "Articles",
+      "comments": "Comments",
       "drafts": "Drafts",
-      "latestArticles": "Latest Articles"
+      "latestArticles": "Latest Articles",
+      "latestComments": "Latest Comments"
     },
     "addBlog": {
       "title": "Add Article",
@@ -111,7 +113,8 @@
         "blogTitle": "Blog Title",
         "date": "Date",
         "status": "Status",
-        "actions": "Actions"
+        "actions": "Actions",
+        "comments": "Comments"
       }
     },
     "comments": {
