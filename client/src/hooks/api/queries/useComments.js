@@ -52,7 +52,10 @@ export function useComments(blogId) {
         return { success: false, message: response.data.message }
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || MESSAGES.ERROR_ADD_COMMENT
+      const serverErrors = err.response?.data?.errors
+      const errorMessage = Array.isArray(serverErrors) && serverErrors.length > 0
+        ? serverErrors.join('. ')
+        : err.response?.data?.message || err.message || MESSAGES.ERROR_ADD_COMMENT
       toast.error(errorMessage)
       return { success: false, message: errorMessage }
     }
