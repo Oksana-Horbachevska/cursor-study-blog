@@ -30,13 +30,23 @@ This is already configured in `.env.example` for local development.
 
 For the full feature list and endpoints, see `../server/README.md`.
 
-### Notes
-- Axios `baseURL` is `import.meta.env.VITE_BASE_URL`
-- On login, JWT is stored and attached to `Authorization` header
-- Rich text HTML is stored in the database; Quill renders/edits content
-- i18next handles internationalization (currently English)
-- DOMPurify sanitizes HTML content for safe rendering
-- Moment.js formats dates throughout the application
+### Testing
+Unit tests use **Vitest 3** + **React Testing Library**. Test files live next to the modules they cover (`*.test.js` / `*.test.jsx`).
+
+```bash
+# Watch mode
+npm test
+
+# Single CI run
+npm run test:run
+
+# Coverage report
+npm run test:coverage
+```
+
+Shared helpers live in `src/test/` (`setup.js`, `test-utils.jsx`, `mockAppContext.js`). Prefer asserting user-visible behavior and business rules; avoid CSS/class-name snapshots.
+
+A root Husky pre-commit hook runs `npm run test:run` before each commit and blocks the commit if any test fails. Use `git commit --no-verify` only when you intentionally need to skip it.
 
 # React + Vite
 
